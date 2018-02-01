@@ -17,7 +17,10 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('username')->unique();
             $table->string('token');
-            $table->boolean('status');            
+            $table->boolean('subscription_status');
+            $table->boolean('invite_status');
+            $table->string('chat_id');
+            $table->string('invite_token');
         });
     }
 
