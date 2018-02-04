@@ -45,11 +45,7 @@ class CommandsController {
                 $token = DatabaseService::registerNewUser($user);
             }
 
-<<<<<<< HEAD
-            $text = "Start message. Link: https://t.me/HeadsOrTails_bot?start={$token}"; // start message
-=======
             $text = "Start message. Link: https://t.me/{botname}?start={$token}"; // start message
->>>>>>> subscriptions
         }
 
         self::$telegram->sendMessage([
