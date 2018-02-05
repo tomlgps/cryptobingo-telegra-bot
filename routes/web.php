@@ -11,6 +11,8 @@
 |
 */
 
+use App\Services\SubscribersChecker;
+
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+  return SubscribersChecker::getChatMember("372728727");
 });

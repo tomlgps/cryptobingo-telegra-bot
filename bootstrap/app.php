@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 try {
     (new Dotenv\Dotenv(__DIR__.'/../'))->load();
@@ -93,10 +93,10 @@ $app->singleton(
 |
 */
 
-$app->router->group([
-    'namespace' => 'App\Http\Controllers',
-], function ($router) {
-    require __DIR__.'/../routes/web.php';
-});
+// $app->router->group([
+//     'namespace' => 'App\Http\Controllers',
+// ], function ($router) {
+//     require __DIR__.'/../routes/web.php';
+// });
 
 return $app;
