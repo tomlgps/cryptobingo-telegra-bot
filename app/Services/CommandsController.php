@@ -37,7 +37,7 @@ class CommandsController {
         $text = 'Вы уже есть в базе.';
         // можно добавить команду, которая будет выводить правила
 
-        if (! DatabaseService::checkIfExsists($user['username'])) {
+        if (! DatabaseService::checkIfUserExsists('username', $user['username'])) {
             if (count($message_data) == 2) {
                 $invite_token = $message_data[1];
                 $token = DatabaseService::registerNewUser($user, $invite_token);
@@ -45,7 +45,8 @@ class CommandsController {
                 $token = DatabaseService::registerNewUser($user);
             }
 
-            $text = "Start message. Link: https://t.me/{botname}?start={$token}"; // start message
+            // $botname не задано, напиши туда короче имя бота
+            $text = "Start message. Link: https://t.me/{$botname}?start={$token}"; // start message
         }
 
         self::$telegram->sendMessage([
@@ -55,12 +56,12 @@ class CommandsController {
     }
 
     public static function check_friend($user) {
-        $status = DB::table('users')
+        $invited = DB::table('users')
             ->where('username', $user['username'])
-            ->select('invite_status')
-            ->get()[0]->invite_status;
+            ->select('invited')
+            ->get()[0]->invited;
 
-        if ($status) {
+        if ($invited) {
             $message = 'Done';
         } else {
             $message = 'Данный пункт правил еще не активирован. ';

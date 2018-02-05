@@ -16,17 +16,18 @@ class DatabaseService {
             'chat_id' => $user['id'],
             'username' => $user['username'],
             'token' => $token,
-            'subscription_status' => false,
-            'invite_status' => false,
+            'invited' => 0,
             'invite_token' => $invite_token
         ]);
+
+        if ($invite_token != 'None')
 
         return $token;
     }
 
-    public static function checkIfExsists($username) {
+    public static function checkIfUserExsists($column, $value) {
         $users_with_the_same_value = count(
-            DB::table('users')->where('username', $username)->get()->toArray()
+            DB::table('users')->where($column, $value)->get()->toArray()
         );
 
         if ($users_with_the_same_value) {

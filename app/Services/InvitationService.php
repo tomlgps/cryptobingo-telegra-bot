@@ -17,20 +17,28 @@ class InvitationService {
     }
 
     public static function activateInviteToken($token) {
-        $user = DB::table('users')
-            ->where('token', $token);
+        if (DatabaseSevice::checkIfUserExsists('token', $token)) {
+            $user = DB::table('users')->where('token', $token);
+            $user->update(['invited' => $user->get()[0]->invited + 1]);
 
-        if (count($user->get())) {
-            $user->update(['status' => true]);
-
-            self::informOwner($user->select('chat_id')->get(), $friend_username);
+            self::informOwnerAboutActivation($user->get()[0]->chat_id, $friend_username);
+            self::checkAndSendIfDone($user->get()[0]);
         }
     }
 
-    private static function informOwner($chat_id, $friend_username) {
+    private static function checkAndSendIfDone($user) {
+        if ($user->invited == 2) {
+            self::$telegram->sendMessage([
+                'chat_id' => $user->chat_id,
+                'text' => 'Теперь вы участвуете.'
+            ]);
+        }
+    }
+
+    private static function informOwnerAboutActivation($chat_id, $friend_username) {
         self::$telegram->sendMessage([
             'chat_id' => $chat_id,
-            'text' => sprintf("%s выполнил необходимые условия.", $friend_username)
+            'text' => "{$friend_username} выполнил необходимые условия."
         ]);
     }
 
