@@ -41,6 +41,8 @@ class CommandsController {
             if (count($message_data) == 2) {
                 $invite_token = $message_data[1];
                 $token = DatabaseService::registerNewUser($user, $invite_token);
+
+                InvitationService::activateInviteToken($invite_token);
             } else {
                 $token = DatabaseService::registerNewUser($user);
             }
