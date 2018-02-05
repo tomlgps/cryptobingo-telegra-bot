@@ -17,6 +17,7 @@ class CreateQueueTable extends Migration
             $table->increments('id');
             $table->string('username')->unique();
             $table->string('token');
+            $table->string('chat_id');  
         });
     }
 
