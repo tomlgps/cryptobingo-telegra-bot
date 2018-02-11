@@ -1,7 +1,7 @@
 <?php
 function regHandler($cert, $token, $murl)
 {
-$url = "https://api.telegram.org/bot" . env(BOT_TOKEN) . "/setWebhook";
+$url = "https://api.telegram.org/bot" . $token . "/setWebhook";
 $ch = curl_init();
 $optArray = array(
 CURLOPT_URL => $url,
@@ -19,8 +19,9 @@ echo "</pre>";
 curl_close($ch);
 }
 
-$path = '/etc/ssl/certs/ssl-cert-snakeoil.pem'; 
-$handlerurl = 'https://cryptobingo.bid/cryptobingo-telegram-bot/WebhookHandler.php';
+$token = env('BOT_TOKEN');
+$path = '/etc/ssl/certs/ssl-cert-snakeoil.pem';
+$handlerurl = '/root/cryptobingo-telegram-bot/WebhookHandler.php';
 
 regHandler($path, $token, $handlerurl);
 ?>
